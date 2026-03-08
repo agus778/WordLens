@@ -1,0 +1,329 @@
+/* ══════════════════════════════════════════════════════
+   WordLens — Floating Definition Panel
+   ══════════════════════════════════════════════════════ */
+
+#wl-panel {
+  all: initial;
+  position: absolute;
+  z-index: 2147483647;
+  width: 420px;
+  max-height: 480px;
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow:
+    0 2px 4px rgba(0,0,0,0.04),
+    0 8px 24px rgba(0,0,0,0.12),
+    0 24px 64px rgba(0,0,0,0.10),
+    0 0 0 1px rgba(0,0,0,0.07);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  font-family: 'Georgia', serif;
+  animation: wl-appear 0.18s cubic-bezier(0.34, 1.4, 0.64, 1);
+  min-width: 320px;
+  min-height: 240px;
+}
+
+@keyframes wl-appear {
+  from { opacity: 0; transform: scale(0.94) translateY(8px); }
+  to   { opacity: 1; transform: scale(1)    translateY(0);   }
+}
+
+/* ── Title bar ────────────────────────────────────────── */
+#wl-panel .wl-titlebar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px 11px;
+  background: #1c1c2e;
+  cursor: grab;
+  user-select: none;
+  flex-shrink: 0;
+}
+
+#wl-panel .wl-titlebar:active { cursor: grabbing; }
+
+#wl-panel .wl-logo {
+  width: 26px; height: 26px;
+  background: #c0392b;
+  border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+  font-family: Georgia, serif;
+  font-size: 14px;
+  font-weight: bold;
+  color: white;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+#wl-panel .wl-word-title {
+  font-family: Georgia, serif;
+  font-size: 17px;
+  font-weight: bold;
+  color: #ffffff;
+  letter-spacing: 0.2px;
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+#wl-panel .wl-titlebar-actions {
+  display: flex;
+  gap: 2px;
+  flex-shrink: 0;
+}
+
+#wl-panel .wl-icon-btn {
+  all: unset;
+  width: 26px; height: 26px;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 5px;
+  color: rgba(255,255,255,0.45);
+  font-size: 13px;
+  cursor: pointer;
+  transition: background 0.12s, color 0.12s;
+  line-height: 1;
+}
+
+#wl-panel .wl-icon-btn:hover {
+  background: rgba(192,57,43,0.55);
+  color: white;
+}
+
+/* ── Scrollable content ───────────────────────────────── */
+#wl-panel .wl-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px 18px;
+  scrollbar-width: thin;
+  scrollbar-color: #ddd transparent;
+}
+
+#wl-panel .wl-content::-webkit-scrollbar { width: 5px; }
+#wl-panel .wl-content::-webkit-scrollbar-thumb { background: #ddd; border-radius: 4px; }
+
+/* ── Loading state ────────────────────────────────────── */
+#wl-panel .wl-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 40px 0;
+  color: #999;
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 13px;
+  font-style: normal;
+}
+
+#wl-panel .wl-loading em {
+  color: #555;
+  font-style: italic;
+}
+
+#wl-panel .wl-spinner {
+  width: 26px; height: 26px;
+  border: 3px solid #eee;
+  border-top-color: #c0392b;
+  border-radius: 50%;
+  animation: wl-spin 0.65s linear infinite;
+}
+
+@keyframes wl-spin { to { transform: rotate(360deg); } }
+
+/* ── Entry ────────────────────────────────────────────── */
+#wl-panel .wl-entry { }
+
+#wl-panel .wl-phonetic-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+#wl-panel .wl-phonetic {
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 14px;
+  color: #888;
+  font-style: italic;
+}
+
+#wl-panel .wl-audio-btn {
+  all: unset;
+  cursor: pointer;
+  font-size: 16px;
+  opacity: 0.6;
+  transition: opacity 0.15s, transform 0.15s;
+  line-height: 1;
+}
+
+#wl-panel .wl-audio-btn:hover { opacity: 1; transform: scale(1.15); }
+
+/* ── Meaning block ────────────────────────────────────── */
+#wl-panel .wl-meaning {
+  margin-bottom: 18px;
+}
+
+#wl-panel .wl-meaning:last-child { margin-bottom: 0; }
+
+#wl-panel .wl-pos {
+  display: inline-block;
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: #c0392b;
+  background: #fdf0ee;
+  padding: 2px 8px;
+  border-radius: 20px;
+  margin-bottom: 10px;
+}
+
+/* ── Definition row ───────────────────────────────────── */
+#wl-panel .wl-def {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+  align-items: flex-start;
+}
+
+#wl-panel .wl-def-num {
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  color: #bbb;
+  min-width: 16px;
+  margin-top: 3px;
+  flex-shrink: 0;
+}
+
+#wl-panel .wl-def-body { flex: 1; }
+
+#wl-panel .wl-def-text {
+  font-family: Georgia, serif;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #2c2c2c;
+  margin: 0 0 4px;
+}
+
+#wl-panel .wl-example {
+  font-family: Georgia, serif;
+  font-size: 13px;
+  color: #777;
+  font-style: italic;
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* ── Synonyms ─────────────────────────────────────────── */
+#wl-panel .wl-syns {
+  margin-top: 8px;
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 12px;
+  color: #888;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  align-items: center;
+}
+
+#wl-panel .wl-syns-label {
+  font-weight: 600;
+  color: #aaa;
+  margin-right: 2px;
+}
+
+#wl-panel .wl-syn {
+  background: #f4f4f4;
+  border-radius: 4px;
+  padding: 2px 7px;
+  color: #555;
+  font-size: 12px;
+}
+
+/* ── Not found ────────────────────────────────────────── */
+#wl-panel .wl-not-found {
+  text-align: center;
+  padding: 28px 16px;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+#wl-panel .wl-not-found-icon {
+  font-size: 32px;
+  color: #ddd;
+  margin-bottom: 10px;
+  font-family: Georgia, serif;
+  font-weight: bold;
+}
+
+#wl-panel .wl-not-found p {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 6px;
+  line-height: 1.5;
+}
+
+#wl-panel .wl-not-found-hint {
+  font-size: 12px !important;
+  color: #aaa !important;
+}
+
+/* ── Footer with external links ───────────────────────── */
+#wl-panel .wl-footer {
+  border-top: 1px solid #f0f0f0;
+  padding: 9px 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  background: #fafafa;
+  flex-shrink: 0;
+}
+
+#wl-panel .wl-footer-label {
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 11px;
+  color: #bbb;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  flex-shrink: 0;
+}
+
+#wl-panel .wl-ext-links {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+#wl-panel .wl-ext-link {
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 12px;
+  color: #888;
+  text-decoration: none;
+  padding: 3px 9px;
+  border: 1px solid #e5e5e5;
+  border-radius: 20px;
+  background: white;
+  transition: all 0.12s;
+  white-space: nowrap;
+}
+
+#wl-panel .wl-ext-link:hover {
+  color: #c0392b;
+  border-color: #c0392b;
+  background: #fdf0ee;
+}
+
+/* ── Resize handle ────────────────────────────────────── */
+#wl-panel .wl-resizer {
+  position: absolute;
+  bottom: 0; right: 0;
+  width: 16px; height: 16px;
+  cursor: nwse-resize;
+  background: linear-gradient(135deg, transparent 50%, rgba(0,0,0,0.1) 50%);
+  border-bottom-right-radius: 16px;
+}

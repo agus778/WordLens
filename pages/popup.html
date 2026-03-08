@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>WordLens</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Segoe UI', sans-serif; width: 256px; background: #1c1c2e; color: white; }
+    .header { padding: 16px; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid rgba(255,255,255,0.08); }
+    .logo { width: 32px; height: 32px; background: #c0392b; border-radius: 7px; display: flex; align-items: center; justify-content: center; font-family: Georgia, serif; font-size: 16px; font-weight: bold; color: white; flex-shrink: 0; }
+    .title { font-size: 14px; font-weight: 600; }
+    .sub { font-size: 11px; color: rgba(255,255,255,0.4); margin-top: 1px; }
+    .body { padding: 14px 16px; }
+    .tip { background: rgba(255,255,255,0.05); border-radius: 8px; padding: 11px 13px; font-size: 12px; color: rgba(255,255,255,0.55); line-height: 1.6; margin-bottom: 14px; }
+    .tip strong { color: rgba(255,255,255,0.85); }
+    .label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.5px; color: rgba(255,255,255,0.3); margin-bottom: 7px; font-weight: 600; }
+    .pills { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 14px; }
+    .pill { font-size: 11px; padding: 3px 9px; border-radius: 20px; background: rgba(39,174,96,0.12); border: 1px solid rgba(39,174,96,0.3); color: #2ecc71; }
+    .pill.none { background: rgba(192,57,43,0.1); border-color: rgba(192,57,43,0.3); color: #e74c3c; }
+    .btn { display: flex; align-items: center; justify-content: center; gap: 6px; width: 100%; padding: 9px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 7px; color: rgba(255,255,255,0.65); font-family: 'Segoe UI', sans-serif; font-size: 12px; cursor: pointer; transition: background 0.12s; }
+    .btn:hover { background: rgba(255,255,255,0.11); color: white; }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="logo">W</div>
+    <div><div class="title">WordLens</div><div class="sub">Dictionary Lookup</div></div>
+  </div>
+  <div class="body">
+    <div class="tip"><strong>Highlight a word</strong>, right-click, and choose <strong>Search Definition</strong> to see an inline panel with the definition.</div>
+    <button class="btn" id="settings-btn"> ⚙ Manage Dictionaries</button>
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>

@@ -8,15 +8,17 @@ Chrome extention in which you highlight a word, right-click, and choose Search D
 
 ### Step 1 
 
-Download this repo
-![Step-1](image-source)
+Download this repository as zip
+![Step-1](/docs/steps-imgs/image%20(2).png)
 
 ### Step 2
 
-- go to `chrome://extensions`
-- press "load unpacked"
-- add the file (unzipped)
+- Go to `chrome://extensions`
+- Press "load unpacked"
+- Add the file (unzipped)
 
+You should see something like this
+![Step-2](/docs/steps-imgs/image%20(3).png)
 
 ## How to use
 
@@ -24,6 +26,7 @@ Download this repo
 
 Highlight and right-click any word, go to "WordLens - Dictionary Lookup" choose "Search Definition".
 
+![Step-3](/docs/steps-imgs/export-1782774490802.gif)
 
 
 

@@ -1,6 +1,6 @@
 // ─── State ────────────────────────────────────────────────────────────────────
 let panel = null;
-let isDragging = false, dragOX = 0, dragOY = 0;
+let isDragging = false, dragOX = 0, dragOY = 0, dragW = 0, dragH = 0;
 let isResizing = false, resStartX, resStartY, resStartW, resStartH;
 
 // ─── Listen for trigger from background ──────────────────────────────────────
@@ -166,10 +166,13 @@ function wireEvents(word, dicts) {
   const handle = panel.querySelector("#wl-drag");
   handle.addEventListener("mousedown", (e) => {
     if (e.target.closest("button")) return;
+    const rect = panel.getBoundingClientRect();
     isDragging = true;
-    dragOX = e.clientX - panel.getBoundingClientRect().left;
-    dragOY = e.clientY - panel.getBoundingClientRect().top;
+    dragOX = e.clientX - rect.left;
+    dragOY = e.clientY - rect.top;
+    dragW = rect.width; dragH = rect.height; // cache once; don't read layout each move
     panel.style.transition = "none";
+    startDragListeners();
     e.preventDefault();
   });
 
@@ -178,9 +181,14 @@ function wireEvents(word, dicts) {
     isResizing = true;
     resStartX = e.clientX; resStartY = e.clientY;
     resStartW = panel.offsetWidth; resStartH = panel.offsetHeight;
+    startDragListeners();
     e.preventDefault(); e.stopPropagation();
   });
+}
 
+// Global move/up listeners live only for the duration of a drag/resize —
+// added on mousedown, removed on mouseup — so they never accumulate or fire idle.
+function startDragListeners() {
   document.addEventListener("mousemove", onMouseMove);
   document.addEventListener("mouseup",   onMouseUp);
 }
@@ -189,8 +197,8 @@ function onMouseMove(e) {
   if (isDragging && panel) {
     let x = e.clientX - dragOX;
     let y = e.clientY - dragOY;
-    x = Math.max(0, Math.min(x, window.innerWidth  - panel.offsetWidth));
-    y = Math.max(0, Math.min(y, window.innerHeight - panel.offsetHeight));
+    x = Math.max(0, Math.min(x, window.innerWidth  - dragW));
+    y = Math.max(0, Math.min(y, window.innerHeight - dragH));
     panel.style.left = x + "px";
     panel.style.top  = (y + window.scrollY) + "px";
   }
@@ -200,7 +208,11 @@ function onMouseMove(e) {
   }
 }
 
-function onMouseUp() { isDragging = false; isResizing = false; }
+function onMouseUp() {
+  isDragging = false; isResizing = false;
+  document.removeEventListener("mousemove", onMouseMove);
+  document.removeEventListener("mouseup",   onMouseUp);
+}
 
 function esc(str) {
   return String(str || "").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");

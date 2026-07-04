@@ -19,12 +19,7 @@ function buildContextMenu() {
   chrome.contextMenus.removeAll(() => {
     chrome.contextMenus.create({
       id: "wordlens-lookup",
-      title: "Search Definition: \"%s\"",
-      contexts: ["selection"]
-    });
-    chrome.contextMenus.create({
-      id: "wordlens-settings",
-      title: "WordLens - Settings",
+      title: "WordLens - Dictionary Lookup",
       contexts: ["selection"]
     });
   });
@@ -64,20 +59,29 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
 
 });
 
-chrome.contextMenus.onClicked.addListener((info, tab) => {
-  if (info.menuItemId === "wordlens-settings") {
-    chrome.tabs.create({ url: chrome.runtime.getURL("pages/settings.html") });
-    return;
+// Send WORDLENS_OPEN; if the tab has no content script yet (e.g. it was open
+// before the extension loaded/reloaded), inject it on demand and retry once.
+async function openLookup(tabId, message) {
+  try {
+    await chrome.tabs.sendMessage(tabId, message);
+  } catch {
+    try {
+      await chrome.scripting.insertCSS({ target: { tabId }, files: ["content.css"] });
+      await chrome.scripting.executeScript({ target: { tabId }, files: ["content.js"] });
+      await chrome.tabs.sendMessage(tabId, message);
+    } catch (err) {
+      // Restricted page (chrome://, Web Store, PDF viewer) — nothing we can do.
+      console.warn("WordLens can't run on this page:", err.message);
+    }
   }
+}
+
+chrome.contextMenus.onClicked.addListener((info, tab) => {
   if (info.menuItemId === "wordlens-lookup") {
     const word = info.selectionText.trim();
     chrome.storage.sync.get("dictionaries", (result) => {
       const dicts = result.dictionaries || DEFAULT_DICTIONARIES;
-      chrome.tabs.sendMessage(tab.id, {
-        type: "WORDLENS_OPEN",
-        word,
-        dictionaries: dicts
-      });
+      openLookup(tab.id, { type: "WORDLENS_OPEN", word, dictionaries: dicts });
     });
   }
 });

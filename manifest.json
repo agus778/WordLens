@@ -1,13 +1,14 @@
 {
   "manifest_version": 3,
   "name": "WordLens \u2013 Dictionary Lookup",
-  "version": "3.0.1",
+  "version": "3.0.2",
   "description": "Highlight any word and right-click to see its definition in a beautiful inline panel.",
   "permissions": [
     "contextMenus",
     "storage",
     "offscreen",
-    "scripting"
+    "scripting",
+    "activeTab"
   ],
   "host_permissions": [
     "https://api.dictionaryapi.dev/*"
@@ -27,18 +28,5 @@
     "16": "icons/icon16.png",
     "48": "icons/icon48.png",
     "128": "icons/icon128.png"
-  },
-  "content_scripts": [
-    {
-      "matches": [
-        "<all_urls>"
-      ],
-      "js": [
-        "content.js"
-      ],
-      "css": [
-        "content.css"
-      ]
-    }
-  ]
+  }
 }

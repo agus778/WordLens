@@ -8,8 +8,8 @@ Chrome extention in which you highlight a word, right-click, and choose Search D
 
 ### Step 1 
 
-Download this repository as zip
-![Step-1](/docs/steps-imgs/image%20(2).png)
+Download the lastest release
+![Step-1](/docs/steps-imgs/step1.png)
 
 ### Step 2
 

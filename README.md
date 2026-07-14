@@ -6,12 +6,18 @@ Chrome extention in which you highlight a word, right-click, and choose Search D
 
 ## How-to install
 
+### Chrome Web store
+
+Just install it trough the Chrome Web Store. [WordLens](https://chromewebstore.google.com/detail/aebanighfnlfllfncgmdopiobejegiji?utm_source=item-share-cb)
+
+### Manual installation 
+
 ### Step 1 
 
 Download the lastest release
 ![Step-1](/docs/steps-imgs/step1.png)
 
-### Step 2
+#### Step 2
 
 - Go to `chrome://extensions`
 - Press "load unpacked"
